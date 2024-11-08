@@ -38,47 +38,49 @@ module system_tb;
 
   // CPU Tracker. Uncomment and change signal names to enable.
   /*
-  cpu_tracker_rv32 cpu_track0 (
-    // No need to change this
-    .CLK(DUT.CPU.DP.CLK),
-    // Since single cycle, this is just PC enable
-    .wb_stall(~DUT.CPU.DP.pc0_en),
-    //dhit signal
-    .dhit(DUT.CPU.DP.dpif.dhit),
-    //funct3 field
-    .funct_3(DUT.CPU.DP.funct3),
-    //funct7 field
-    .funct_7(DUT.CPU.DP.funct7),
-    //funct7 opcode
-    .opcode(DUT.CPU.DP.opcode),
-    // The 'rs1' portion of an instruction
-    .rs1(DUT.CPU.DP.rsel1),
-    // The 'rs2' portion of an instruction
-    .rs2(DUT.CPU.DP.rsel2),
-    //write select from reg. file
-    .wsel(DUT.CPU.DP.wsel),
-    //Instruction loaded from memory
-    .instr(DUT.CPU.DP.dpif.imemload),
-    // Connect the PC to this
-    .pc(DUT.CPU.DP.pc),
-    // Connect the next PC to this
-    .next_pc_val(DUT.CPU.DP.pc_selected),
-    // Connect branch addr
-    .branch_addr(DUT.CPU.DP.branch_imm),
-    // Connect jump addr
-    .jump_addr(DUT.CPU.DP.j_imm),
-    // This means it should already be shifted/extended/whatever
-    .imm(DUT.CPU.DP.imm_ext),
-    //Pre shifted bits from U-type inst.
-    .lui_pre_shift(DUT.CPU.DP.dpif.imemload[31:12]),
-    //Data to store to memory
-    .store_dat(DUT.CPU.DP.dpif.dmemstore),
-    //Data to write to reg. file
-    .reg_dat(DUT.CPU.DP.wdat),
-    //Data loaded from memory
-    .load_dat(DUT.CPU.DP.dpif.dmemload),
-    //Addr. to load/store from/to memory
-    .dat_addr(DUT.CPU.DP.dpif.dmemaddr)
+  cpu_tracker_singlecycle cpu_track0 (
+    // CLK in datapath
+    .CLK(DUT.CPU.DP0.CLK),
+    // signal which enables PC to go to next instruction
+    .enable_pc(DUT.CPU.DP0.dpif.ihit),
+    // dhit from dpif
+    .dhit(DUT.CPU.DP0.dpif.dhit),
+    // funct3 bits
+    .funct3(DUT.CPU.DP0.funct3),
+    // funct7 bits
+    .funct7(DUT.CPU.DP0.funct7),
+    // opcode bits
+    .opcode(opcode_t'(DUT.CPU.DP0.opcode)),
+    // rsel1 bits
+    .rsel1(DUT.CPU.DP0.rs1),
+    // rsel2 bits
+    .rsel2(DUT.CPU.DP0.rs2),
+    // wsel bits
+    .wsel(DUT.CPU.DP0.rd),
+    // 32-bit instruction
+    .instr(DUT.CPU.DP0.instr),
+    // PC for this instruction
+    .pc(DUT.CPU.DP0.PC),
+    // next PC to go to after this instruction
+    .next_pc(DUT.CPU.DP0.nPC),
+    // target PC for this instruction. Branches and JAL: PC + imm32; JALR: R[rs] + imm32
+    .branch_jump_target_pc(DUT.CPU.DP0.branch_PC),
+    // 32-bit decoded immediate
+    .imm32(DUT.CPU.DP0.imm),
+    // upper 20 bits as used by U-Type instructions (LUI, AUIPC). Can be the upper 20 bits of your decoded imm32 if your datapath does this already.
+    .utype_upper20(DUT.CPU.DP0.imm[31:12]),
+    // 32-bit wdat to register file
+    .reg_file_wdat(DUT.CPU.DP0.rfif.wdat),
+    // 1-bit dmemREN from dpif
+    .data_mem_read(DUT.CPU.DP0.dpif.dmemREN),
+    // 1-bit dmemWEN from dpif
+    .data_mem_write(DUT.CPU.DP0.dpif.dmemWEN),
+    // 32-bit dmemaddr from dpif
+    .data_mem_addr(DUT.CPU.DP0.dpif.dmemaddr),
+    // 32-bit dmemload from dpif
+    .data_mem_load(DUT.CPU.DP0.dpif.dmemload),
+    // 32-bit dmemstore from dpif
+    .data_mem_store(DUT.CPU.DP0.dpif.dmemstore)
   );
   */
 
@@ -121,7 +123,7 @@ program test(input logic CLK, output logic nRST, system_if.tb syif);
       @(posedge CLK);
       cycles++;
     end
-    $display("Halted at %g time and ran for %d cycles.",$time, cycles);
+    $display("Halted at %g time and ran for %d cycles.",$time, (cycles-1)/2);
     nRST = 0;
     dump_memory();
     $finish;
