@@ -124,6 +124,13 @@ program test(input logic CLK, output logic nRST, system_if.tb syif);
       cycles++;
     end
     $display("Halted at %g time and ran for %d cycles.",$time, (cycles-1)/2);
+
+    // Check if the halt signal is latched properly
+    repeat (20) @(posedge CLK);
+    if (!syif.halt) begin
+      $display("WARNING! Halt signal is not maintained after processor halts!");
+    end
+
     nRST = 0;
     dump_memory();
     $finish;
