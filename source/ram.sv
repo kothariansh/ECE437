@@ -1,8 +1,10 @@
 /*
   Eric Villasenor
   evillase@gmail.com
+  Jimmy Jin
+  mingze.jin01@gmail.com
 
-  ram with variable latency
+  ram with variable latency and debug port
 */
 
 // interface
@@ -10,11 +12,19 @@
 // types
 `include "cpu_types_pkg.vh"
 
-module ram (input logic CLK, nRST, cpu_ram_if.ram ramif);
+module ram (
+    input logic CLK,
+    input logic nRST,
+    input logic halt,
+    cpu_ram_if.ram ramif,
+    // vio debug ports
+    input  logic [13:0]               dbg_addr,
+    output logic [31:0]               dbg_data_out
+);
   // import types
   import cpu_types_pkg::*;
 
-  parameter BAD = 32'hBAD1BAD1, LAT = 0;
+  parameter BAD = 32'hBAD1BAD1, LAT = 2;
 
   logic [3:0]   count;
   ramstate_t    rstate;
@@ -22,7 +32,37 @@ module ram (input logic CLK, nRST, cpu_ram_if.ram ramif);
   logic         wren;
   logic [1:0]   en;
 
-  altsyncram  altsyncram_component (
+
+`ifdef USE_VIVADO
+  localparam BRAM_DEPTH = 16384;
+  localparam BRAM_ADDR_BITS = 14;
+  logic [31:0] mem [0:BRAM_DEPTH-1]; // BRAM
+
+  // cpu
+  logic [BRAM_ADDR_BITS-1:0] sel_a;
+  assign sel_a = ramif.ramaddr[BRAM_ADDR_BITS+1:2];
+
+  always_ff @(posedge CLK) begin
+    if (wren) begin
+      mem[sel_a] <= ramif.ramstore;
+    end
+    q <= mem[sel_a];
+  end
+
+  // bram
+
+  logic [31:0] dbg_data_out_reg;
+  always_ff @(posedge CLK) begin
+    dbg_data_out_reg <= mem[dbg_addr];
+  end
+  assign dbg_data_out = dbg_data_out_reg;
+
+  initial begin
+    $readmemh("meminit.mem", mem);
+  end
+
+`else
+  altsyncram altsyncram_component (
         .address_a (ramif.ramaddr[15:2]),
         .clock0 (CLK),
         .data_a (ramif.ramstore),
@@ -61,6 +101,7 @@ module ram (input logic CLK, nRST, cpu_ram_if.ram ramif);
     altsyncram_component.widthad_a = 14,
     altsyncram_component.width_a = 32,
     altsyncram_component.width_byteena_a = 1;
+`endif
 
   assign ramif.ramload = (rstate == ACCESS) ? q : BAD;
   assign wren = (rstate == ACCESS) ? ramif.ramWEN : 0;
