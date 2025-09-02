@@ -22,6 +22,8 @@ module system_tb;
 
   // signals
   logic CLK = 1, nRST;
+  logic [31:0] dbg_data_out_tb;
+
 
   // clock
   always #(PERIOD/2) CLK++;
@@ -34,7 +36,7 @@ module system_tb;
 
   // dut
 `ifndef MAPPED
-  system                              DUT (CLK,nRST,syif);
+  system                              DUT (CLK,nRST,syif,14'b0,dbg_data_out_tb);
 
   // CPU Tracker. Uncomment and change signal names to enable.
   /*
@@ -94,7 +96,9 @@ module system_tb;
     syif.store,
     syif.REN,
     syif.WEN,
-    syif.tbCTRL
+    syif.tbCTRL,
+    14'b0,
+    dbg_data_out_tb
   );
 `endif
 endmodule

@@ -1,6 +1,8 @@
 /*
   Eric Villasenor
   evillase@gmail.com
+  Jimmy Jin
+  mingze.jin01@gmail.com
 
   system top block wraps processor(datapath+cache)
   and memory (ram).
@@ -12,34 +14,28 @@
 // types
 `include "cpu_types_pkg.vh"
 
-module system (input logic CLK, nRST, system_if.sys syif);
+module system (
+  input logic CLK, nRST,
+  system_if.sys syif,
 
-
+  // dbg passthrough for bram
+  input  logic [13:0]               dbg_addr,
+  output logic [31:0]               dbg_data_out
+);
+// TODO: TODO: TODO: 
+// 1. Note this is the top level module that will call different processors (single-cycle, multi-cycle, etc.). 
+// 2. Make sure you instantantiate all the processors with CPUCLK instead of CLK
   // stopped running
-  logic halt;
+  logic halt; // instruction to stop running the current assembly file
 
   // clock division
-  parameter CLKDIV = 2;
   logic CPUCLK;
-  logic [3:0] count;
-  //logic CPUnRST;
 
-  always_ff @(posedge CLK, negedge nRST)
-  begin
+  always_ff @(posedge CLK, negedge nRST) begin
     if (!nRST)
-    begin
-      count <= 0;
-      CPUCLK <= 0;
-    end
-    else if (count == CLKDIV-2)
-    begin
-      count <= 0;
-      CPUCLK <= ~CPUCLK;
-    end
+      CPUCLK <= 1'b0;
     else
-    begin
-      count <= count + 1;
-    end
+      CPUCLK <= ~CPUCLK;
   end
 
   // interface
@@ -53,8 +49,14 @@ module system (input logic CLK, nRST, system_if.sys syif);
   //multicore   #(.PC0('h0), .PC1('h200)) CPU (CLK, nRST, halt, prif);
 
   // memory
-  ram                                   RAM (CLK, nRST, prif);
-  //sdram                                 RAM (CLK, nRST, prif);
+  ram RAM (
+    .CLK(CLK),
+    .nRST(nRST),
+    .halt(halt),
+    .ramif(prif),
+    .dbg_addr (dbg_addr),
+    .dbg_data_out(dbg_data_out)
+  );  
 
   // interface connections
   assign syif.halt = halt;
