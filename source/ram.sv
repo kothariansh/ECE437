@@ -24,7 +24,7 @@ module ram (
   // import types
   import cpu_types_pkg::*;
 
-  parameter BAD = 32'hBAD1BAD1, LAT = 2;
+  parameter BAD = 32'hBAD1BAD1, LAT = 0;
 
   logic [3:0]   count;
   ramstate_t    rstate;
@@ -139,7 +139,13 @@ module ram (
       3'b101:   rstate = BUSY;
       default:  rstate = ERROR;
     endcase
-    if (!nRST || ((addr == ramif.ramaddr) && ((ramif.ramREN || ramif.ramWEN) && (count >= LAT))))
+    if (!nRST || (
+          (addr == ramif.ramaddr) && 
+          ((ramif.ramREN || ramif.ramWEN) && 
+          (count >= LAT) &&
+          (en == {ramif.ramREN, ramif.ramWEN}))
+      )
+    )
     begin
       rstate = ACCESS;
     end

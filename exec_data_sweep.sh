@@ -1,9 +1,10 @@
 #!/bin/bash
 
 # Developed by Adam Busch - ECE437 Fall 2021
-# Modified and adpated by Robert Murphy - ECE437 Fall 2022
+# Modified and adapted by Robert Murphy - ECE437 Fall 2022
 # Modified and adapted by Zach Lagpacan - ECE437 Fall 2024
 # Modified and adapted by Jimmy Jin     - ECE437 Fall 2025
+# Modified and adapted by Jerry Chen    - ECE437 Fall 2025
 
 # This script automates the process of simulating and synthesizing the processor design
 # across a range of RAM latencies to evaluate performance and timing.
@@ -77,7 +78,7 @@ do
         # clean, syn
         make clean > /dev/null 2>&1
         asm $asm_file
-        synthesize_xilinx -t -p -c -f 200 system_fpga > /dev/null 2>&1
+        synthesize_xilinx -t -p -c -f 200 system > /dev/null 2>&1
         
         # extract timing
         log_file=$(find ./build -name "bitstream_*_gen.log" | head -n 1)

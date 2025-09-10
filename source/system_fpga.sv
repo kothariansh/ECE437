@@ -21,7 +21,7 @@ module system_fpga_clock_div #(parameter DIV = 10) (
   always_ff @(posedge clk) begin
     count <= count + 1;
     if (count == DIV/2 - 1) begin
-      outclk = ~outclk;
+      outclk <= ~outclk;
       count <= 0;
     end
   end
@@ -94,8 +94,9 @@ module system_fpga (
   // system
   (* mark_debug = "true" *) logic [13:0] dbg_addr;
   (* mark_debug = "true" *) logic [31:0] dbg_data_out;
-
-  system SYS(CLK_100MHZ, nRST, syif, dbg_addr, dbg_data_out);
+  logic SYSCLK;
+  system_fpga_clock_div #(.DIV(2)) CLKDIV0 (CLK_100MHZ, SYSCLK);
+  system SYS(SYSCLK, nRST, syif, dbg_addr, dbg_data_out);
   mem_debug_vio vio_inst (
     .clk(CLK_100MHZ),
     .probe_out0(dbg_addr),        // VIO output drives the RAM address
