@@ -28,7 +28,7 @@ module ram (
 
   logic [3:0]   count;
   ramstate_t    rstate;
-  word_t        q, addr = 0;
+  word_t        q, addr;
   logic         wren;
   logic [1:0]   en;
 
