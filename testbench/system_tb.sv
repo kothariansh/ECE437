@@ -23,7 +23,7 @@ module system_tb;
   // signals
   logic CLK = 1, nRST;
   logic [31:0] dbg_data_out_tb;
-
+  logic [13:0] dbg_addr_tb;
 
   // clock
   always #(PERIOD/2) CLK++;
@@ -32,12 +32,39 @@ module system_tb;
   system_if syif();
 
   // test program
-  test                                PROG (CLK,nRST,syif);
+  test                                PROG (CLK,nRST,syif,dbg_addr_tb,dbg_data_out_tb);
 
   // dut
-`ifndef MAPPED
-  system                              DUT (CLK,nRST,syif,14'b0,dbg_data_out_tb);
-
+`ifdef VIVADO_MAPPED
+  system DUT (
+    .CLK(CLK),
+    .nRST(nRST),
+    .\syif\.halt (syif.halt),
+    .\syif\.addr (syif.addr),
+    .\syif\.store (syif.store),
+    .\syif\.REN (syif.REN),
+    .\syif\.WEN (syif.WEN),
+    .\syif\.tbCTRL (syif.tbCTRL),
+    .\syif\.load (syif.load),
+    .dbg_addr(dbg_addr_tb),
+    .dbg_data_out(dbg_data_out_tb)
+  );
+`elsif MAPPED
+  system                              DUT (,,,,//for altera debug ports
+    CLK,
+    nRST,
+    syif.halt,
+    syif.load,
+    syif.addr,
+    syif.store,
+    syif.REN,
+    syif.WEN,
+    syif.tbCTRL,
+    dbg_addr_tb,
+    dbg_data_out_tb
+  );
+`else
+  system DUT (CLK,nRST,syif,dbg_addr_tb,dbg_data_out_tb);
   // CPU Tracker. Uncomment and change signal names to enable.
   /*
   cpu_tracker_singlecycle cpu_track0 (
@@ -85,25 +112,11 @@ module system_tb;
     .data_mem_store(DUT.CPU.DP0.dpif.dmemstore)
   );
   */
-
-`else
-  system                              DUT (,,,,//for altera debug ports
-    CLK,
-    nRST,
-    syif.halt,
-    syif.load,
-    syif.addr,
-    syif.store,
-    syif.REN,
-    syif.WEN,
-    syif.tbCTRL,
-    14'b0,
-    dbg_data_out_tb
-  );
 `endif
+
 endmodule
 
-program test(input logic CLK, output logic nRST, system_if.tb syif);
+program test(input logic CLK, output logic nRST, system_if.tb syif, output logic [13:0] dbg_addr_tb, input logic [31:0] dbg_data_out_tb);
   // import word type
   import cpu_types_pkg::word_t;
 
@@ -140,6 +153,30 @@ program test(input logic CLK, output logic nRST, system_if.tb syif);
     $finish;
   end
 
+`ifdef USE_VIVADO
+  task automatic dump_memory();
+    string filename = "memcpu.mem";
+    int memfd = $fopen(filename,"w");
+    if (memfd)
+      $display("Starting memory dump via debug port.");
+    else
+      begin $display("Failed to open %s.",filename); $finish; end
+
+    for (int unsigned i = 0; i < 16384; i++) begin
+      dbg_addr_tb = i;
+      @(posedge CLK);
+      if ((dbg_data_out_tb | ~dbg_data_out_tb) !== 32'hffffffff) begin
+        $fdisplay(memfd, "%h", 32'h00000000);
+      end else begin
+        $fdisplay(memfd, "%h", dbg_data_out_tb);
+      end
+    end
+
+    $fclose(memfd);
+    dbg_addr_tb = 0;
+    $display("Finished memory dump via debug port.");
+  endtask
+`else
   task automatic dump_memory();
     string filename = "memcpu.hex";
     int memfd;
@@ -182,4 +219,5 @@ program test(input logic CLK, output logic nRST, system_if.tb syif);
       $display("Finished memory dump.");
     end
   endtask
+`endif
 endprogram
