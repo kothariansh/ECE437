@@ -161,10 +161,9 @@ program test(input logic CLK, output logic nRST, system_if.tb syif, output logic
       $display("Starting memory dump via debug port.");
     else
       begin $display("Failed to open %s.",filename); $finish; end
-
     for (int unsigned i = 0; i < 16384; i++) begin
       dbg_addr_tb = i;
-      @(posedge CLK);
+      repeat (2) @(posedge CLK);
       if ((dbg_data_out_tb | ~dbg_data_out_tb) !== 32'hffffffff) begin
         $fdisplay(memfd, "%h", 32'h00000000);
       end else begin
