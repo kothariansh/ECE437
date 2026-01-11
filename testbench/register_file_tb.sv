@@ -34,13 +34,13 @@ module register_file_tb;
   register_file DUT(CLK, nRST, rfif);
 `else
   register_file DUT(
-    .\rfif.\rdat2 (rfif.rdat2),
-    .\rfif.\rdat1 (rfif.rdat1),
-    .\rfif.\wdat (rfif.wdat),
-    .\rfif.\rsel2 (rfif.rsel2),
-    .\rfif.\rsel1 (rfif.rsel1),
-    .\rfif.\wsel (rfif.wsel),
-    .\rfif.\WEN (rfif.WEN),
+    .\rfif\.rdat2 (rfif.rdat2),
+    .\rfif\.rdat1 (rfif.rdat1),
+    .\rfif\.wdat (rfif.wdat),
+    .\rfif\.rsel2 (rfif.rsel2),
+    .\rfif\.rsel1 (rfif.rsel1),
+    .\rfif\.wsel (rfif.wsel),
+    .\rfif\.WEN (rfif.WEN),
     .\nRST (nRST),
     .\CLK (CLK)
   );
