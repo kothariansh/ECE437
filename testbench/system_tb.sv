@@ -35,35 +35,7 @@ module system_tb;
   test                                PROG (CLK,nRST,syif,dbg_addr_tb,dbg_data_out_tb);
 
   // dut
-`ifdef VIVADO_MAPPED
-  system DUT (
-    .CLK(CLK),
-    .nRST(nRST),
-    .\syif\.halt (syif.halt),
-    .\syif\.addr (syif.addr),
-    .\syif\.store (syif.store),
-    .\syif\.REN (syif.REN),
-    .\syif\.WEN (syif.WEN),
-    .\syif\.tbCTRL (syif.tbCTRL),
-    .\syif\.load (syif.load),
-    .dbg_addr(dbg_addr_tb),
-    .dbg_data_out(dbg_data_out_tb)
-  );
-`elsif MAPPED
-  system                              DUT (,,,,//for altera debug ports
-    CLK,
-    nRST,
-    syif.halt,
-    syif.load,
-    syif.addr,
-    syif.store,
-    syif.REN,
-    syif.WEN,
-    syif.tbCTRL,
-    dbg_addr_tb,
-    dbg_data_out_tb
-  );
-`else
+`ifndef MAPPED
   system DUT (CLK,nRST,syif,dbg_addr_tb,dbg_data_out_tb);
   // CPU Tracker. Uncomment and change signal names to enable.
   /*
@@ -112,6 +84,20 @@ module system_tb;
     .data_mem_store(DUT.CPU.DP0.dpif.dmemstore)
   );
   */
+`else
+  system DUT (
+    .CLK(CLK),
+    .nRST(nRST),
+    .\syif\.halt (syif.halt),
+    .\syif\.addr (syif.addr),
+    .\syif\.store (syif.store),
+    .\syif\.REN (syif.REN),
+    .\syif\.WEN (syif.WEN),
+    .\syif\.tbCTRL (syif.tbCTRL),
+    .\syif\.load (syif.load),
+    .dbg_addr(dbg_addr_tb),
+    .dbg_data_out(dbg_data_out_tb)
+  );
 `endif
 
 endmodule
