@@ -1,0 +1,36 @@
+Error: parse error
+   --> source/alu.sv:16:13
+   |
+16 |     ALU_ADD begin
+   |             ^
+Error: parse error
+   --> source/alu.sv:28:5
+   |
+28 |     ALU_OR: alufif.result = alufif.a | alufif.b
+   |     ^
+Error: parse error
+   --> source/alu.sv:48:5
+   |
+48 |     end else begin
+   |     ^
+Fail: interface_port_with_modport
+   --> source/alu.sv:4:5
+  |
+4 |     alu_if alufif
+  |     ^^^^^^ hint  : Specify the modport on the interface port.
+  |            reason: Without a modport, the interface port signals are all implictly `inout`.
+
+Fail: case_default
+   --> source/alu.sv:13:5
+   |
+13 |     case (alufif.aluop)
+   |     ^^^^ hint  : Use a `default` expression in `case` statements.
+   |          reason: Incomplete case may cause simulation/synthesis mismatch in `always_comb` and `function`.
+
+Fail: interface_port_with_modport
+   --> source/alu.sv:4:5
+  |
+4 |     alu_if alufif
+  |     ^^^^^^ hint  : Specify the modport on the interface port.
+  |            reason: Without a modport, the interface port signals are all implictly `inout`.
+

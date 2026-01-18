@@ -58,9 +58,6 @@ program test (
   input logic CLK
 );
 
-
-
-
 initial begin
 rfif.WEN = 0;
 rfif.wsel = 0;
