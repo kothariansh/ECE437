@@ -1,0 +1,199 @@
+m255
+K4
+z2
+Z0 !s99 nomlopt
+R0
+R0
+R0
+R0
+R0
+R0
+R0
+R0
+R0
+R0
+R0
+R0
+R0
+R0
+R0
+R0
+R0
+R0
+R0
+R0
+R0
+R0
+R0
+R0
+R0
+!s11f vlog 2021.4 2021.10, Oct 13 2021
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z1 d/home/ecegridfs/a/437mg061/ece437/processors
+T_opt
+!s110 1768698249
+VRQ[^?W5?MCKNS0LBXnkeW2
+04 16 4 work register_file_tb fast 0
+04 4 4 work glbl fast 0
+=1-f48e3881b53e-696c3189-284b2-2a5c82
+!s124 OEM100
+o-quiet -auto_acc_if_foreign -work work -L unisim -suppress 12110
+tCvgOpt 0
+n@_opt
+OL;O;2021.4;73
+Xcpu_types_pkg
+Z2 DXx6 sv_std 3 std 0 22 9oUSJO;AeEaW`l:M@^WG92
+Z3 !s110 1768698245
+!i10b 1
+!s100 z`m1=3E62;6[=8cIZ5:M33
+I87m2i__UzPoZnj:Va_A]b3
+S1
+R1
+Z4 w1768323338
+8include/cpu_types_pkg.vh
+Finclude/cpu_types_pkg.vh
+!i122 84
+L0 19 0
+V87m2i__UzPoZnj:Va_A]b3
+Z5 OL;L;2021.4;73
+r1
+!s85 0
+31
+Z6 !s108 1768698245.000000
+Z7 !s107 include/cpu_types_pkg.vh|include/register_file_if.vh|testbench/register_file_tb.sv|
+Z8 !s90 +acc|-sv12compat|-mfcu|-lint|+incdir+include|-suppress|12110|+define+USE_VIVADO|-L|unisim|testbench/register_file_tb.sv|
+!i113 0
+Z9 o-suppress 12110 +acc -sv12compat -mfcu -lint -L unisim -L mtiAvm -L mtiOvm -L mtiUvm -L mtiUPF
+Z10 !s92 -suppress 12110 +acc -sv12compat -mfcu -lint +incdir+include +define+USE_VIVADO -L unisim -L mtiAvm -L mtiOvm -L mtiUvm -L mtiUPF
+Z11 tShow_source 1 ScalarOpts 1 Show_Lint 1 Show_BadOptionWarning 1 Coverage 63 Svlog 1 CoverExcludeDefault 1 CoverOpt 1 CoverShortCircuit 0 FsmImplicitTrans 1 CvgOpt 0
+vglbl
+R2
+R3
+!i10b 1
+!s100 <eX8oadM8Q<6gKgjKmG3m1
+IThKkHkfU_V8H1jMjbY^LR0
+S1
+R1
+w1697210495
+8/package/eda/xilinx/Vivado/2023.2/data/verilog/src/glbl.v
+F/package/eda/xilinx/Vivado/2023.2/data/verilog/src/glbl.v
+!i122 85
+L0 6 78
+Z12 VDg1SIo80bB@j0V0VzS_@n1
+R5
+r1
+!s85 0
+31
+R6
+!s107 /package/eda/xilinx/Vivado/2023.2/data/verilog/src/glbl.v|
+!s90 -work|work|+acc|-sv12compat|-mfcu|-lint|+incdir+include|-suppress|12110|+define+USE_VIVADO|-L|unisim|/package/eda/xilinx/Vivado/2023.2/data/verilog/src/glbl.v|
+!i113 0
+o-suppress 12110 -work work +acc -sv12compat -mfcu -lint -L unisim -L mtiAvm -L mtiOvm -L mtiUvm -L mtiUPF
+!s92 -suppress 12110 -work work +acc -sv12compat -mfcu -lint +incdir+include +define+USE_VIVADO -L unisim -L mtiAvm -L mtiOvm -L mtiUvm -L mtiUPF
+R11
+vregister_file
+R2
+!s110 1768692258
+!i10b 1
+!s100 a4S52m`2YV62<z?SBkd`S3
+Ie6UIiieEQ5kU]I^h]SYSW1
+S1
+R1
+w1768692256
+8source/register_file.sv
+Fsource/register_file.sv
+!i122 37
+L0 2 26
+R12
+R5
+r1
+!s85 0
+31
+!s108 1768692258.000000
+!s107 include/cpu_types_pkg.vh|include/register_file_if.vh|source/register_file.sv|
+!s90 +acc|-sv12compat|-mfcu|-lint|+incdir+include|-suppress|12110|+define+USE_VIVADO|-L|unisim|source/register_file.sv|
+!i113 0
+R9
+R10
+R11
+Yregister_file_if
+R2
+DXx4 work 13 cpu_types_pkg 0 22 87m2i__UzPoZnj:Va_A]b3
+R3
+!i10b 1
+!s100 ^1[@gDLRDk`mTI@F?Ko<i3
+ITXdCFdTgidmi<CzK7MIgW1
+S1
+R1
+R4
+8include/register_file_if.vh
+Finclude/register_file_if.vh
+!i122 84
+L0 13 0
+R12
+R5
+r1
+!s85 0
+31
+R6
+R7
+R8
+!i113 0
+R9
+R10
+R11
+vregister_file_tb
+R2
+R3
+!i10b 1
+!s100 4ag8N5GHh;hGH9a27SPa72
+I4DoQVBnJ=NzX]Lb3l[NMk2
+S1
+R1
+Z13 w1768698243
+Z14 8testbench/register_file_tb.sv
+Z15 Ftestbench/register_file_tb.sv
+!i122 84
+L0 14 40
+R12
+R5
+r1
+!s85 0
+31
+R6
+R7
+R8
+!i113 0
+R9
+R10
+R11
+4test
+R2
+R3
+!i10b 1
+!s100 T@:ZX71@_EkoR;Oa=WnmL2
+I2ChojS=Oo0QKAm7aDXQ3J2
+S1
+R1
+R13
+R14
+R15
+!i122 84
+L0 55 0
+R12
+R5
+r1
+!s85 0
+31
+R6
+R7
+R8
+!i113 0
+R9
+R10
+R11
