@@ -1,4 +1,4 @@
-# Auto-generated file list for top-level: register_file
-# Generated on: Sat Jan 17 20:08:30 2026
+# Auto-generated file list for top-level: alu
+# Generated on: Sun Jan 18 20:14:55 2026
 
-source/register_file.sv
+source/alu.sv

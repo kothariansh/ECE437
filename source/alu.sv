@@ -1,10 +1,12 @@
-import cpu_types_pkg::*; 
+
+`include "cpu_types_pkg.vh"
 `include "alu_if.vh"
 
-module alu (
+module alu ( 
     alu_if.alu aluif
 );
 
+import cpu_types_pkg::*;
 logic signed [WORD_W-1:0] as, bs, rs;
 
 always_comb begin
