@@ -1,4 +1,3 @@
-
 `include "cpu_types_pkg.vh"
 `include "alu_if.vh"
 

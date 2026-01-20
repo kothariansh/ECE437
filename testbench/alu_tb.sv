@@ -1,6 +1,7 @@
 `include "include/cpu_types_pkg.vh"
 `include "include/alu_if.vh"
 `include "source/alu.sv"
+
 `timescale 1 ns / 1 ns
 
 module alu_tb;
@@ -9,19 +10,19 @@ module alu_tb;
 
   alu_test PROG (aluif);
 
-`ifndef MAPPED
+// `ifndef MAPPED
   alu DUT(aluif);
-`else
-  alu DUT(
-    .\aluif\.ovf    (aluif.ovf),
-    .\aluif\.zero   (aluif.zero),
-    .\aluif\.neg    (aluif.neg),
-    .\aluif\.result (aluif.result),
-    .\aluif\.aluop  (aluif.aluop),
-    .\aluif\.b      (aluif.b),
-    .\aluif\.a      (aluif.a)
-  );
-`endif
+// `else
+//   alu DUT(
+//     .\aluif\.ovf    (aluif.ovf),
+//     .\aluif\.zero   (aluif.zero),
+//     .\aluif\.neg    (aluif.neg),
+//     .\aluif\.result (aluif.result),
+//     .\aluif\.aluop  (aluif.aluop),
+//     .\aluif\.b      (aluif.b),
+//     .\aluif\.a      (aluif.a)
+//   );
+// `endif
 
 endmodule
 
