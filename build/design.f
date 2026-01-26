@@ -1,4 +1,4 @@
-# Auto-generated file list for top-level: alu
-# Generated on: Tue Jan 20 17:59:11 2026
+# Auto-generated file list for top-level: memory_control
+# Generated on: Mon Jan 26 16:52:50 2026
 
-source/alu.sv
+source/memory_control.sv

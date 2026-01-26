@@ -1,0 +1,14 @@
+Fail: parameter_explicit_type
+   --> source/memory_control.sv:24:3
+   |
+24 |   parameter CPUS = 1;
+   |   ^^^^^^^^^ hint  : Provide an explicit type in `parameter` declaration.
+   |             reason: Explicit parameter types clarify intent and improve readability.
+
+Fail: loop_statement_in_always_comb
+   --> source/memory_control.sv:109:3
+    |
+109 |   for (k = 0; k < CPUS; k++) begin
+    |   ^^^ hint  : Keywords `for` is forbidden within `always_comb`.
+    |       reason: Procedural loops within `always_comb` introduce sequential dependencies.
+
